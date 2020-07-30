@@ -1,7 +1,7 @@
 PROJ=nes
 FPGA_PREFIX ?=
 #FPGA_PREFIX ?= um5g-
-FPGA_SIZE ?= 12
+FPGA_SIZE ?= 85
 
 FPGA_KS ?= $(FPGA_PREFIX)$(FPGA_SIZE)k
 
@@ -33,7 +33,7 @@ YOSYS ?= yosys
 #NEXTPNR-ECP5 ?= /mt/scratch/tmp/openfpga/nextpnr/nextpnr-ecp5
 NEXTPNR-ECP5 ?= nextpnr-ecp5
 # https://github.com/SymbiFlow/prjtrellis
-TRELLIS ?= /mt/scratch/tmp/openfpga/prjtrellis
+# TRELLIS ?= /mt/scratch/tmp/openfpga/prjtrellis
 
 # open source synthesis tools
 #ECPPLL ?= $(TRELLIS)/libtrellis/ecppll
@@ -41,8 +41,8 @@ ECPPLL ?= ecppll
 #ECPPACK ?= $(TRELLIS)/libtrellis/ecppack
 ECPPACK ?= ecppack
 # usage	LANG=C LD_LIBRARY_PATH=$(LIBTRELLIS) $(ECPPACK) --db $(TRELLISDB) --compress --idcode $(IDCODE) $< $@
-TRELLISDB ?= $(TRELLIS)/database
-LIBTRELLIS ?= $(TRELLIS)/libtrellis
+# TRELLISDB ?= $(TRELLIS)/database
+# LIBTRELLIS ?= $(TRELLIS)/libtrellis
 BIT2SVF ?= $(TRELLIS)/tools/bit_to_svf.py
 #BASECFG ?= $(TRELLIS)/misc/basecfgs/empty_$(FPGA_CHIP_EQUIVALENT).config
 # yosys options, sometimes those can be used: -noccu2 -nomux -nodram
@@ -139,7 +139,7 @@ GHDL_MODULE = -mghdl
 	$(NEXTPNR-ECP5) $(NEXTPNR_OPTIONS) --json  $< --textcfg $@ --$(FPGA_KS) --freq 21 --package CABGA381 --lpf ulx3s_v20.lpf
 
 %.bit: %_out.config
-	LANG=C LD_LIBRARY_PATH=$(LIBTRELLIS) $(ECPPACK) --db $(TRELLISDB) --compress --idcode $(IDCODE) $< $@
+	LANG=C $(ECPPACK) --compress --idcode $(IDCODE) $< $@
 
 prog: ${PROJ}.bit
 	fujprog $<
@@ -154,5 +154,5 @@ prog_game: rom/game_tilt.img
 clean:
 	rm -f *.bit *.config *.json
 
-
+.SECONDARY:
 .PHONY: prog clean

@@ -10,8 +10,8 @@ module top
   parameter C_autofire_hz=10, // joystick trigger and bumper
   parameter C_osd_usb=2, // 0:OSD onboard BTN's, 1:OSD USB joystick, 2:both
   // choose one: C_flash_loader or C_esp32_loader
-  parameter C_flash_loader=0, // fujprog -j flash -f 0x200000 100in1.img
-  parameter C_esp32_loader=1 // usage: import nes # for OSD press together A B SELECT START or all 4 directions
+  parameter C_flash_loader=1, // fujprog -j flash -f 0x200000 100in1.img
+  parameter C_esp32_loader=0 // usage: import nes # for OSD press together A B SELECT START or all 4 directions
 )
 (
   input  clk_25mhz,
